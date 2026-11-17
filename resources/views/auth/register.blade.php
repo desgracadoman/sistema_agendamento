@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Criar conta - {{ config('app.name') }}</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: #f3f4f6;
+            font-family: Arial, sans-serif;
+            color: #1f2937;
+        }
+
+        .register-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 36px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
+        }
+
+        .register-header {
+            margin-bottom: 28px;
+            text-align: center;
+        }
+
+        .register-header h1 {
+            margin: 0 0 10px;
+            font-size: 26px;
+        }
+
+        .register-header p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: 2px solid #9ca3af;
+            outline-offset: 1px;
+        }
+
+        .button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 7px;
+            background: #374151;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background: #1f2937;
+        }
+
+        .links {
+            margin-top: 22px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .links a {
+            color: #374151;
+            text-decoration: none;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        .error {
+            margin-top: 7px;
+            color: #b91c1c;
+            font-size: 13px;
+        }
+
+        .status {
+            margin-bottom: 20px;
+            padding: 12px;
+            border-radius: 7px;
+            background: #ecfdf5;
+            color: #065f46;
+            font-size: 14px;
+        }
+
+        @media (max-width: 480px) {
+            .register-container {
+                padding: 26px 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="register-container">
+
+        <header class="register-header">
+            <h1>Criar conta</h1>
+            <p>Preencha seus dados para começar.</p>
+        </header>
+
+        @if (session('status'))
+            <div class="status">
+                {{ session('status') }}
+            </div>
+        @endif
+
+        <form method="POST" action="{{ route('register.store') }}">
+            @csrf
+
+            <div class="form-group">
+                <label for="name">Nome completo</label>
+
+                <input
+                    id="name"
+                    type="text"
+                    name="name"
+                    value="{{ old('name') }}"
+                    required
+                    autofocus
+                    autocomplete="name"
+                >
+
+                @error('name')
+                    <div class="error">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label for="email">E-mail</label>
+
+                <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    value="{{ old('email') }}"
+                    required
+                    autocomplete="email"
+                >
+
+                @error('email')
+                    <div class="error">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label for="password">Senha</label>
+
+                <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    required
+                    autocomplete="new-password"
+                >
+
+                @error('password')
+                    <div class="error">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label for="password_confirmation">
+                    Confirmar senha
+                </label>
+
+                <input
+                    id="password_confirmation"
+                    type="password"
+                    name="password_confirmation"
+                    required
+                    autocomplete="new-password"
+                >
+            </div>
+
+            <button class="button" type="submit">
+                Criar minha conta
+            </button>
+
+        </form>
+
+        <div class="links">
+            <a href="{{ route('login') }}">
+                Já tenho uma conta. Entrar
+            </a>
+        </div>
+
+    </main>
+
+</body>
+</html>
